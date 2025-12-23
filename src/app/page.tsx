@@ -1,4 +1,4 @@
-import IntroText from "@/utils/IntroText";
+import IntroText from "@/components/module/IntroText";
 
 export default function Home() {
   return (
