@@ -1,9 +1,10 @@
-import IntroText from "@/components/module/IntroText";
+import Intro from "@/components/sections/Intro";
+
 
 export default function Home() {
   return (
-    <main className="bg-gray-950">
-      <IntroText/>
+    <main className="">
+      <Intro/>
     </main>
   );
 }
