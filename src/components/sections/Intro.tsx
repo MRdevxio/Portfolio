@@ -1,21 +1,45 @@
-"use client"
+"use client";
 
-import dynamic from "next/dynamic"
-import { useInView } from "react-intersection-observer"
+import { useRef } from "react";
+import dynamic from "next/dynamic";
+import { gsap } from "@/lib/gsap";
+import { useGSAP } from "@gsap/react";
 import IntroText from "../module/IntroText";
-const LiquidEther = dynamic(() => import("../LiquidEther"), {
-    
-    loading: () => <div className="bg-neutral-950" />
-});
-function Intro() {
 
-    const { ref, inView } = useInView({
-        triggerOnce: false,
-        threshold: 0.05
-    });
+const LiquidEther = dynamic(() => import("../LiquidEther"), {
+    ssr: false,
+    loading: () => <div className="bg-[#060010] w-full h-screen absolute inset-0" />
+});
+
+export default function Intro() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const bgRef = useRef<HTMLDivElement>(null);
+    const textWrapperRef = useRef<HTMLDivElement>(null);
+    const subTextRef = useRef<HTMLParagraphElement>(null);
+
+    useGSAP(() => {
+        const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+        tl.to(bgRef.current, {
+            opacity: 1,
+            duration: 2.5,
+            ease: "power1.inOut"
+        })
+            .fromTo(textWrapperRef.current,
+                { scale: 10, opacity: 0, filter: "blur(10px)" },
+                { scale: 1, opacity: 1, filter: "blur(0px)", duration: 1.8 },
+                "<+0.5"
+            )
+            .fromTo(subTextRef.current,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1 },
+                "-=0.8"
+            );
+    }, { scope: containerRef });
+
     return (
-        <section ref={ref} className="w-full h-[100vh] relative bg-[#060010]">
-            {inView &&
+        <section ref={containerRef} className="w-full h-screen relative bg-[#060010] overflow-hidden">
+            <div ref={bgRef} className="absolute inset-0 opacity-0 transition-opacity will-change-opacity">
                 <LiquidEther
                     colors={['#5227FF', '#FF9FFC', '#B19EEF']}
                     mouseForce={15}
@@ -35,21 +59,20 @@ function Intro() {
                     autoRampDuration={0.6}
                     className="absolute inset-0 w-full h-full"
                 />
-            }
-            <div className="absolute inset-0 flex items-center justify-center z-50">
-                <div className="flex flex-col items-center justify-center">
-
-                    <div className="flex justify-end items-start w-full">
-                        <IntroText width={"300"} height={"35"} />
+            </div>
+            <div className="w-full absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
+                <div className="flex flex-col items-center justify-center px-4 content-center gap-4">
+                    <div
+                        ref={textWrapperRef}
+                        className="flex justify-center items-center will-change-transform opacity-0 mx-auto text-center"
+                    >
+                        <IntroText />
                     </div>
-
-
-                    <p className="text-white text-sm mt-6 text-center max-w-2xl px-4">یک توسعه‌دهنده وب و  فرانت اند  که تمرکزم ساخت محصولاتی تمیز ، ایمن ، سریع و کاربردی‌ هستن.</p>
+                    <p ref={subTextRef} className="text-white text-sm text-center font-light opacity-0 leading-relaxed">
+                        یک توسعه‌دهنده وب و فرانت‌اند که تمرکزم ساخت محصولاتی تمیز، ایمن، سریع و کاربردی‌ هستن.
+                    </p>
                 </div>
             </div>
-
         </section>
-    )
+    );
 }
-
-export default Intro

@@ -26,6 +26,7 @@
       "@/module/*": ["./src/components/module/*"],
       "@/layout/*": ["./src/components/layout/*"],
       "@/utils/*": ["./src/utils/*"],
+      "@/lib/*": ["./src/lib/*"],
       "@/template*": ["./src/components/template/*"]
     }
   },
