@@ -38,7 +38,7 @@ export default function Intro() {
     }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} className="w-full h-screen relative bg-[#060010] overflow-hidden">
+        <section ref={containerRef} className="w-full h-screen relative bg-[#060010] overflow-hidden px-5">
             <div ref={bgRef} className="absolute inset-0 opacity-0 transition-opacity will-change-opacity">
                 <LiquidEther
                     colors={['#5227FF', '#FF9FFC', '#B19EEF']}
@@ -68,7 +68,7 @@ export default function Intro() {
                     >
                         <IntroText />
                     </div>
-                    <p ref={subTextRef} className="text-white text-sm text-center font-light opacity-0 leading-relaxed">
+                    <p ref={subTextRef} className="text-white text-base text-center font-light opacity-0 leading-relaxed sm:text-lg">
                         یک توسعه‌دهنده وب و فرانت‌اند که تمرکزم ساخت محصولاتی تمیز، ایمن، سریع و کاربردی‌ هستن.
                     </p>
                 </div>

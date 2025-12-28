@@ -1,0 +1,48 @@
+/* Liquid Glass Menu Styles */
+
+.nav-menu {
+    position: absolute;
+    width: 30rem;
+    z-index: 50;
+    padding: 1.25rem 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    top: 1.75rem;
+    left: 50%;
+    transform: translateX(40%);
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.03);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: inset -6 -2 6px rgba(255, 255, 255, 0.1),inset 4 2 6px rgba(255, 255, 255, 0.2);
+}
+
+.menu-items {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.menu-items li {
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.menu-items li:hover {
+    color: #A855F7;
+    transform: scale(1.1);
+}
+
+@keyframes liquidEffect {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
