@@ -13,10 +13,10 @@ interface NavItems {
 }
 const MenuItems: NavItems[] = [
     { label: "خانه", href: "/", icon: <HomeIco /> },
-    { label: "درباره من", href: "/", icon: <UserIco /> },
-    { label: "مهارت ها", href: "/", icon: <CpuIco/> },
-    { label: "پروژه ها", href: "/", icon: <FolderIco /> },
-    { label: "تماس با من", href: "/", icon: <MailIco /> },
+    { label: "درباره من", href: "/about-me", icon: <UserIco /> },
+    { label: "مهارت ها", href: "/skills", icon: <CpuIco/> },
+    { label: "پروژه ها", href: "/projects", icon: <FolderIco /> },
+    { label: "تماس با من", href: "/contact-me", icon: <MailIco /> },
 ]
 function NavMenu() {
     return (
@@ -31,11 +31,11 @@ function NavMenu() {
                     </ul>
                 </nav>
             </header>
-            <nav className='md:hidden fixed bottom-5 left-0 w-[90%] translate-x-[5%]  text-white z-50 inset-shadow-[3px_3px_6px_rgba(255,255,255,0.2),-3px_-3px_6px_rgba(255,255,255,0.2)] items-center rounded-2xl backdrop-blur-xl' style={{paddingBlock:"0.7rem"}}>
+            <nav className='md:hidden fixed bottom-5 left-0 w-[90%] translate-x-[5%]  text-white z-50 inset-shadow-[3px_3px_6px_rgba(255,255,255,0.2),-3px_-3px_6px_rgba(255,255,255,0.2)] items-center rounded-2xl backdrop-blur-xl' style={{paddingBlock:"1rem"}}>
                 <ul className='flex justify-around '>
                     {MenuItems.map((item) => (
 
-                        <li key={item.label} className='inline'>{item.icon}</li>
+                        <li key={item.label} className=''><Link href={item.href}>{item.icon}</Link></li>
                     ))}
                 </ul>
             </nav>
