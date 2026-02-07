@@ -7,6 +7,7 @@ export default function Home() {
     <main className="">
       <NavMenu/>
       <Intro/>
+      
     </main>
   );
 }
