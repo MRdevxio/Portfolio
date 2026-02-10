@@ -72,7 +72,7 @@ export default function Intro() {
                     <p ref={subTextRef} className="text-white text-base text-center font-light opacity-0 leading-relaxed sm:text-lg">
                         یک توسعه‌دهنده وب و فرانت‌اند که تمرکزم ساخت محصولاتی تمیز، ایمن، سریع و کاربردی‌ هستن.
                     </p>
-                    <div className="pointer-events-auto flex flex-col gap-5 mt-3 sm:flex sm:flex-row sm:gap-67">
+                    <div className="pointer-events-auto flex flex-col gap-4 mt-2 sm:flex sm:flex-row sm:gap-48">
                         
                     <Button link={true} href="/projects"
                     variant="secondary">پروژه های من</Button>

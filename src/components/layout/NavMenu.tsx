@@ -28,8 +28,8 @@ function NavMenu() {
     }
     return (
         <>
-            <header className='hidden md:flex'>
-                <nav className="nav-menu ">
+            <header className='hidden sm:flex'>
+                <nav className="nav-menu  md:-translate-x-75 lg:-translate-x-35 xl:-translate-x-12 2xl:translate-x-9">
                     <ul className="flex justify-between text-white font-bold ">
                         {MenuItems.map((item) => (
                             <li key={item.label} className={`${isActive(item.href) ? 'text-[#A855F7] scale-[1.2]' : ''} cursor-pointer hover:text-[#A855F7]  hover:scale-[1.2] transition-all ease-in-out duration-300`}><Link href={item.href}>{item.label}</Link></li>

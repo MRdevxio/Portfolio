@@ -32,7 +32,7 @@ const variants: Record<Variant, string> = {
     relative group overflow-hidden
     backdrop-blur-lg
     bg-white/5 backdrop-blur-md
-    px-24 py-3 sm:px-14 sm:py-3 cursor-pointer
+    px-5 w-64 py-3 sm:px-14 sm:py-3 cursor-pointer
     border border-white/10
     transition-transform duration-300 ease-in-out
     
