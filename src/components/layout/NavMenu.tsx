@@ -28,7 +28,7 @@ function NavMenu() {
     }
     return (
         <>
-            <header className='hidden sm:flex'>
+            <header className='hidden sm:flex opacity-0 invisible translate-x-12 transition-none'>
                 <nav className="nav-menu  md:-translate-x-75 lg:-translate-x-35 xl:-translate-x-12 2xl:translate-x-9">
                     <ul className="flex justify-between text-white font-bold ">
                         {MenuItems.map((item) => (
@@ -37,7 +37,7 @@ function NavMenu() {
                     </ul>
                 </nav>
             </header>
-            <nav className='md:hidden fixed bottom-5 left-0 w-[90%] translate-x-[5%]  text-white z-50 inset-shadow-[3px_3px_6px_rgba(255,255,255,0.2),-3px_-3px_6px_rgba(255,255,255,0.2)] items-center rounded-2xl backdrop-blur-xl' style={{ paddingBlock: "1rem" }}>
+            <nav className='opacity-0 invisible translate-y-10 transition-none md:hidden fixed bottom-5 left-0 w-[90%] translate-x-[5%]  text-white z-50 inset-shadow-[3px_3px_6px_rgba(255,255,255,0.2),-3px_-3px_6px_rgba(255,255,255,0.2)] items-center rounded-2xl backdrop-blur-xl' style={{ paddingBlock: "1rem" }}>
                 <ul className='flex justify-around '>
                     {MenuItems.map((item) => {
                         const Icon = item.iconComponent;

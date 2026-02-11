@@ -75,9 +75,9 @@ export default function Intro() {
                     <div className="pointer-events-auto flex flex-col gap-4 mt-2 sm:flex sm:flex-row sm:gap-48">
                         
                     <Button link={true} href="/projects"
-                    variant="secondary">پروژه های من</Button>
+                    variant="secondary" className="intro-btn opacity-0 translate-y-10 invisible">پروژه های من</Button>
                     <Button link={true} href="/contact-me"
-                    variant="secondary"> بیاید صحبت کنیم</Button>
+                    variant="secondary" className="intro-btn opacity-0 translate-y-10 invisible "> بیاید صحبت کنیم</Button>
                     </div>
                 </div>
             </div>
