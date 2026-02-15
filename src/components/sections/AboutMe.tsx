@@ -11,7 +11,7 @@ function AboutMe() {
             <PixelBlast variant="square"
                 pixelSize={4}
                 color="#A855F7"
-                patternScale={1.3}
+                patternScale={1}
                 patternDensity={1}
                 pixelSizeJitter={0}
                 enableRipples
@@ -25,10 +25,10 @@ function AboutMe() {
                 speed={0.5}
                 edgeFade={0.25}
                 transparent />
-                <div className="absolute w-300 bg-white/5 h-100 flex justify-center items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  gap-5 rounded-xl backdrop-blur-xs">
-                    <div className="text-white">lmdklgmdkged</div>
-                    <p className="text-white w-120">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, accusamus, eveniet ea, quibusdam sint iure aliquid consectetur tempora sit quis et! Vero ipsum deleniti nostrum, voluptate et harum corrupti odit deserunt autem nulla possimus illum modi, id veritatis at! Nam!</p>
-                </div>
+            <div className="absolute w-250 bg-white/3 h-110 flex justify-between items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-14  rounded-3xl backdrop-blur-[5px]">
+                <div className="text-white">lmdklgmdkged</div>
+                <p className="text-white w-120">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, accusamus, eveniet ea, quibusdam sint iure aliquid consectetur tempora sit quis et! Vero ipsum deleniti nostrum, voluptate et harum corrupti odit deserunt autem nulla possimus illum modi, id veritatis at! Nam!</p>
+            </div>
         </section>
     )
 }
