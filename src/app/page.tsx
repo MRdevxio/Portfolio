@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import NavMenu from "@/components/layout/NavMenu";
 import Intro from "@/components/sections/Intro";
 import { gsap } from "@/lib/gsap";
+import AboutMe from "@/components/sections/AboutMe";
 
 export default function Home() {
   const mainRef = useRef<HTMLDivElement>(null);
@@ -83,6 +84,7 @@ export default function Home() {
       </div>
 
       <Intro />
+      <AboutMe />
     </main>
   );
 }
