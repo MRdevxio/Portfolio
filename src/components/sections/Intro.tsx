@@ -12,7 +12,12 @@ const LiquidEther = dynamic(() => import("../LiquidEther"), {
     loading: () => <div className="bg-[#060010] w-full h-screen absolute inset-0" />
 });
 
-export default function Intro() {
+// تعریف تایپ پراپ
+interface IntroProps {
+    isActive: boolean;
+}
+
+export default function Intro({ isActive }: IntroProps) {
     const containerRef = useRef<HTMLDivElement>(null);
     const bgRef = useRef<HTMLDivElement>(null);
     const textWrapperRef = useRef<HTMLDivElement>(null);
@@ -40,48 +45,50 @@ export default function Intro() {
 
     return (
         <section ref={containerRef} className="w-full h-screen relative bg-[#060010] overflow-hidden px-5">
-            <div ref={bgRef} className="absolute inset-0 opacity-0 transition-opacity will-change-opacity ">
-                <LiquidEther
-                    colors={['#5227FF', '#FF9FFC', '#B19EEF']}
-                    mouseForce={15}
-                    cursorSize={100}
-                    isViscous={false}
-                    viscous={30}
-                    iterationsViscous={20}
-                    iterationsPoisson={20}
-                    BFECC={false}
-                    resolution={0.5}
-                    isBounce={false}
-                    autoDemo={true}
-                    autoSpeed={0.5}
-                    autoIntensity={2.0}
-                    takeoverDuration={0.25}
-                    autoResumeDelay={3000}
-                    autoRampDuration={0.6}
-                    className="absolute inset-0 w-full h-full "
-                />
+            <div ref={bgRef} className="absolute inset-0 opacity-0 transition-opacity will-change-opacity">
+                {/* اگر LiquidEther قابلیت pause دارد، isActive را به آن پاس دهید. 
+                    در غیر اینصورت، وقتی inactive است رندر نمی‌کنیم یا display none می‌کنیم */}
+                <div style={{ display: isActive ? 'block' : 'none', width: '100%', height: '100%' }}>
+                    <LiquidEther
+                        colors={['#5227FF', '#FF9FFC', '#B19EEF']}
+                        mouseForce={isActive ? 15 : 0} // خاموش کردن تعامل ماوس در زمان غیرفعال بودن
+                        cursorSize={100}
+                        isViscous={false}
+                        viscous={30}
+                        iterationsViscous={20}
+                        iterationsPoisson={20}
+                        BFECC={false}
+                        resolution={0.5}
+                        isBounce={false}
+                        autoDemo={isActive} // توقف انیمیشن خودکار اگر ساپورت میکند
+                        autoSpeed={0.5}
+                        autoIntensity={2.0}
+                        takeoverDuration={0.25}
+                        autoResumeDelay={3000}
+                        autoRampDuration={0.6}
+                        className="absolute inset-0 w-full h-full"
+                    />
+                </div>
             </div>
+
             <div className="w-full absolute inset-0 flex items-center justify-center z-50 pointer-events-none">
-                <div className="flex flex-col items-center justify-center px-4 content-center gap-4 ">
-                    <div
-                        ref={textWrapperRef}
-                        className="flex justify-center items-center will-change-transform opacity-0 mx-auto text-center"
-                    >
+                <div className="flex flex-col items-center justify-center px-4 content-center gap-4">
+                    <div ref={textWrapperRef} className="flex justify-center items-center will-change-transform opacity-0 mx-auto text-center">
                         <IntroText />
                     </div>
                     <p ref={subTextRef} className="text-white text-base text-center font-light opacity-0 leading-relaxed sm:text-lg">
                         یک توسعه‌دهنده وب و فرانت‌اند که تمرکزم ساخت محصولاتی تمیز، ایمن، سریع و کاربردی‌ هستن.
                     </p>
                     <div className="pointer-events-auto flex flex-col gap-4 mt-2 sm:flex sm:flex-row sm:gap-48">
-                        
-                    <Button link={true} href="/projects"
-                    variant="secondary" className="intro-btn opacity-0 translate-y-10 invisible">پروژه های من</Button>
-                    <Button link={true} href="/contact-me"
-                    variant="secondary" className="intro-btn opacity-0 translate-y-10 invisible "> بیاید صحبت کنیم</Button>
+                        <div className="intro-btn opacity-0 invisible">
+                            <Button link={true} href="/projects" variant="secondary">پروژه های من</Button>
+                        </div>
+                        <div className="intro-btn opacity-0 invisible">
+                            <Button link={true} href="/contact-me" variant="secondary"> بیاید صحبت کنیم</Button>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-
     );
 }
