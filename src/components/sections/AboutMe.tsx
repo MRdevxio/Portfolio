@@ -46,33 +46,33 @@ export default function AboutMe({ isActive = true }: AboutMeProps) {
             duration: 1,
             ease: "power3.out",
         })
-        // ۲. ظاهر شدن عکس با افکت پاپ‌آپ
-        .from(imageRef.current, {
-            scale: 0.85,
-            opacity: 0,
-            duration: 0.8,
-            ease: "back.out(1.5)", // حالت فنری و نرم
-        }, "-=0.5") 
-        // ۳. ظاهر شدن متن با حرکت ملایم به بالا
-        .from(textRef.current, {
-            y: 20,
-            opacity: 0,
-            duration: 0.6,
-            ease: "power2.out",
-        }, "-=0.4")
-        // ۴. ظاهر شدن دکمه
-        .from(btnRef.current, {
-            y: 15,
-            opacity: 0,
-            duration: 0.5,
-            ease: "power2.out",
-        }, "-=0.3");
+            // ۲. ظاهر شدن عکس با افکت پاپ‌آپ
+            .from(imageRef.current, {
+                scale: 0.85,
+                opacity: 0,
+                duration: 0.8,
+                ease: "back.out(1.5)", // حالت فنری و نرم
+            }, "-=0.5")
+            // ۳. ظاهر شدن متن با حرکت ملایم به بالا
+            .from(textRef.current, {
+                y: 20,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.out",
+            }, "-=0.4")
+            // ۴. ظاهر شدن دکمه
+            .from(btnRef.current, {
+                y: 15,
+                opacity: 0,
+                duration: 0.5,
+                ease: "power2.out",
+            }, "-=0.3");
 
-    }, { scope: containerRef }); 
+    }, { scope: containerRef });
 
     return (
         <section ref={containerRef} className="w-full h-screen relative bg-[#060010] overflow-hidden">
-            
+
             {/* کنترل رندر Canvas برای بهینه‌سازی پرفورمنس (توقف کامل وقتی دیده نمیشه) */}
             <div style={{ display: isActive ? 'block' : 'none', width: '100%', height: '100%', position: 'absolute', inset: 0 }}>
                 <PixelBlast
@@ -98,40 +98,50 @@ export default function AboutMe({ isActive = true }: AboutMeProps) {
 
             {/* کارت شیشه‌ای */}
             <div
-                ref={cardRef}
-                className="absolute w-250 bg-white/3 h-110 flex justify-around items-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-14 rounded-3xl backdrop-blur-[5px]"
-            >
-                {/* بخش تصویر */}
-                <div
-                    ref={imageRef}
-                    className="text-white"
-                    style={{
-                        maskImage: "radial-gradient(ellipse 100% 90% at center, black 30%, transparent 100%)",
-                        WebkitMaskImage: "radial-gradient(ellipse 100% 90% at center, black 30%, transparent 100%)",
-                    }}
-                >
-                    <Image
-                        src={"/me_no_watermark.webp"}
-                        alt="my picture"
-                        width={1000}
-                        height={1000}
-                        className="w-65 rounded-4xl object-cover"
-                    />
-                </div>
+    ref={cardRef}
+    // تغییرات حیاتی:
+    // 1. بازگشت به top-1/2 و -translate-y-1/2 برای قرارگیری دقیق در مرکز (رفع مشکل A12)
+    // 2. استفاده از max-h-[75dvh] (dvh ارتفاع داینامیک است و با نوار آدرس گوشی تداخل نمی‌کند)
+    // 3. حذف کلاس justify-center از کانتینر اصلی تا در زمان اسکرول، بالای عکس بریده نشود!
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-105 bg-white/3 max-h-[75dvh] overflow-y-auto flex flex-col items-center px-5 py-6 rounded-3xl backdrop-blur-[5px] shadow-lg custom-scrollbar"
+>
+    {/* بخش تصویر */}
+    <div
+        ref={imageRef}
+        // shrink-0 بسیار مهم است تا عکس فشرده نشود
+        className="w-full flex justify-center shrink-0 mb-4"
+        style={{
+            maskImage: "radial-gradient(ellipse 100% 90% at center, black 30%, transparent 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 100% 90% at center, black 30%, transparent 100%)",
+        }}
+    >
+        <Image
+            src={"/me_no_watermark.webp"}
+            alt="my picture"
+            width={1000}
+            height={1000}
+            // سایز عکس ریسپانسیو شد: در گوشی‌های کوچک w-28 و در صفحات بزرگتر w-36
+            className="w-28 h-28 sm:w-36 sm:h-36 rounded-xl object-cover object-top shrink-0"
+        />
+    </div>
 
-                {/* بخش متن و دکمه */}
-                <div>
-                    <p ref={textRef} className="text-white w-130 leading-8 text-justify">
-                        توسعه‌دهنده فرانت‌اند با تمرکز بر کارایی (Performance) و تجربه کاربری. اولویت من در توسعه، فراتر از ظاهر و متمرکز بر مهندسی بهینه‌ی رابط کاربری است. با تحلیل و بهبود Core Web Vitals و مدیریت دقیق Bundle Size، شکاف میان طراحی بصری و سرعت اجرای فنی را پر می‌کنم. تخصص من در اکوسیستم Next.Js بر پیاده‌سازی رابط‌های واکنش‌گرا و Performance-Centric استوار است؛ جایی که سرعت لود و روانی تعامل، مستقیماً بر موفقیت تجاری محصول اثر می‌گذارد.
-                    </p>
+    {/* بخش متن و دکمه */}
+    <div className="w-full flex flex-col items-center shrink-0">
+        <p 
+            ref={textRef} 
+            // متن text-justify شد تا مثل یک بلوک تمیز در بیاید و از حاشیه‌ها بیرون نزند
+            className="text-white text-[13px] sm:text-sm leading-7 sm:leading-8 text-justify px-1"
+        >
+            توسعه‌دهنده فرانت‌اند با تمرکز بر کارایی (Performance) و تجربه کاربری. اولویت من در توسعه، فراتر از ظاهر و متمرکز بر مهندسی بهینه‌ی رابط کاربری است. با تحلیل و بهبود Core Web Vitals و مدیریت دقیق Bundle Size، شکاف میان طراحی بصری و سرعت اجرای فنی را پر می‌کنم. تخصص من در اکوسیستم Next.Js بر پیاده‌سازی رابط‌های واکنش‌گرا و Performance-Centric استوار است؛ جایی که سرعت لود و روانی تعامل، مستقیماً بر موفقیت تجاری محصول اثر می‌گذارد.
+        </p>
 
-                    <div ref={btnRef} className="mt-5 w-max">
-                        <Button link={true} href="/contact-me" className="drop-shadow-[0_0_7px_#ad3bff]">
-                            بیاید صحبت کنیم
-                        </Button>
-                    </div>
-                </div>
-            </div>
+        <div ref={btnRef} className="mt-5 mb-2 w-max shrink-0">
+            <Button link={true} href="/contact-me" className="drop-shadow-[0_0_7px_#ad3bff]">
+                بیاید صحبت کنیم
+            </Button>
+        </div>
+    </div>
+</div>
         </section>
     );
 }
