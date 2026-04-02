@@ -1,65 +1,109 @@
-import Image from "next/image";
+"use client";
+
+import { useRef, useState } from "react";
+import NavMenu from "@/components/layout/NavMenu";
+import Intro from "@/components/sections/Intro";
+import AboutMe from "@/components/sections/AboutMe";
+import { gsap } from "@/lib/gsap"; 
+import { ScrollTrigger } from "gsap/ScrollTrigger"; 
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
+  const mainRef = useRef<HTMLDivElement>(null);
+  const navWrapperRef = useRef<HTMLDivElement>(null);
+  const introRef = useRef<HTMLDivElement>(null);
+  const aboutRef = useRef<HTMLDivElement>(null);
+
+  const [activeSection, setActiveSection] = useState("/"); 
+  const [isIntroActive, setIsIntroActive] = useState(true);
+  const [isAboutActive, setIsAboutActive] = useState(false);
+
+  // یک پرچم (Flag) برای اینکه انیمیشن دکمه‌ها و منو فقط یکبار اجرا شود
+  const uiRevealedRef = useRef(false);
+
+  useGSAP(() => {
+    // --- ۱. انیمیشن منو و دکمه‌ها (در حالت پیش‌فرض PAUSED است) ---
+    // با حذف delay و اضافه کردن paused: true منتظر دستور ما می‌ماند
+    const showTl = gsap.timeline({ paused: true, defaults: { ease: "power3.out", duration: 0.8 } });
+
+    showTl.to(navWrapperRef.current, { autoAlpha: 1, duration: 0.3 });
+
+    const desktopHeader = navWrapperRef.current?.querySelector("header");
+    const mobileNav = navWrapperRef.current?.querySelector("nav:not(.nav-menu)");
+    const buttons = gsap.utils.toArray(".intro-btn"); 
+
+    if (desktopHeader) {
+        showTl.fromTo(desktopHeader, { x: 50, autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 1 }, "-=0.2");
+    }
+    if (mobileNav) {
+        showTl.fromTo(mobileNav, { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1 }, "<");
+    }
+    if (buttons.length) {
+        showTl.fromTo(buttons, { y: 30, autoAlpha: 0 }, { autoAlpha: 1, y: 0, stagger: 0.15, ease: "back.out(1.7)" }, "-=0.6");
+    }
+
+    // --- ۲. لاجیک اسکرول اصلی ---
+    const scrollTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: mainRef.current,
+        start: "top top",
+        end: "+=150%", 
+        scrub: 1,
+        pin: true,
+        onUpdate: (self) => {
+            // جادوی درخواست شما اینجاست: 
+            // اگر اسکرول از 0.005 (همان 0.5 درصد) بیشتر شد و قبلاً انیمیشن پخش نشده بود
+            if (self.progress > 0.005 && !uiRevealedRef.current) {
+                uiRevealedRef.current = true; // پرچم را می‌بندیم که دفعه بعد اجرا نشود
+                showTl.play(); // انیمیشن دکمه‌ها و منو را پلی می‌کنیم
+            }
+
+            // لاجیک تغییر صفحات (کدهای قبلی)
+            if (self.progress > 0.4) {
+                setActiveSection("/about-me");
+                setIsAboutActive(true);
+                setIsIntroActive(false); 
+            } else {
+                setActiveSection("/");
+                setIsAboutActive(false);
+                setIsIntroActive(true); 
+            }
+        }      
+      },
+    });
+
+    scrollTl.to(introRef.current, {
+      scale: 0.9, opacity: 0, filter: "blur(10px)", ease: "power2.inOut",
+    }, 0);
+
+    scrollTl.fromTo(aboutRef.current,
+      { yPercent: 100 },
+      { yPercent: 0, ease: "power2.inOut" },
+      0
+    );
+  }, { scope: mainRef });
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main ref={mainRef} className="relative h-screen w-full bg-[#060010] overflow-hidden">
+      
+      {/* منو */}
+      <div ref={navWrapperRef} className="fixed top-0 right-0 w-full z-50 pointer-events-none opacity-0 invisible">
+        <div className="pointer-events-auto">
+          <NavMenu activeSection={activeSection} />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Intro Section */}
+      <div ref={introRef} className={`absolute inset-0 z-0 w-full h-full ${!isIntroActive ? 'pointer-events-none' : ''}`}>
+        <Intro isActive={isIntroActive} />
+      </div>
+
+      {/* About Me Section */}
+      <div ref={aboutRef} className="absolute inset-0 z-10 w-full h-full will-change-transform">
+        <AboutMe isActive={isAboutActive} />
+      </div>
+    </main>
   );
 }
