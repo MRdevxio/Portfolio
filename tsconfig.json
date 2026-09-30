@@ -27,7 +27,7 @@
       "@/layout/*": ["./src/components/layout/*"],
       "@/utils/*": ["./src/utils/*"],
       "@/lib/*": ["./src/lib/*"],
-      "@/template*": ["./src/components/template/*"]
+      "@/template*": ["./src/components/sections/*"]
     }
   },
   "include": [

@@ -4,6 +4,13 @@
 *{
   box-sizing: border-box;
 }
+
+/* لایهٔ «درباره من» باید از همان اولین رندر (HTML سرور، قبل از اجرای GSAP) زیر صفحه باشد،
+   وگرنه چون z-index آن بالاتر از Intro است و بکگراندش مات است، اول «درباره من» دیده میشود.
+   GSAP همین مقدار را با yPercent اعمال میکند و چون inline style است این قانون را بازنویسی میکند. */
+.about-layer {
+  transform: translateY(100%);
+}
 .nav-menu {
     position: absolute;
     width: 30rem;

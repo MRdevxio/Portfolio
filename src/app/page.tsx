@@ -78,9 +78,11 @@ export default function Home() {
       scale: 0.9, opacity: 0, filter: "blur(10px)", ease: "power2.inOut",
     }, 0);
 
+    // y صریحاً صفر میشود چون GSAP ترنسفورم کلاس .about-layer را به‌صورت پیکسل خوانده و
+    // در حافظهٔ خود y میگذارد؛ بدون این صفر کردن، آفست دو برابر میشد و سکشن جابهجا میماند.
     scrollTl.fromTo(aboutRef.current,
-      { yPercent: 100 },
-      { yPercent: 0, ease: "power2.inOut" },
+      { y: 0, yPercent: 100 },
+      { y: 0, yPercent: 0, ease: "power2.inOut" },
       0
     );
   }, { scope: mainRef });
@@ -101,7 +103,7 @@ export default function Home() {
       </div>
 
       {/* About Me Section */}
-      <div ref={aboutRef} className="absolute inset-0 z-10 w-full h-full will-change-transform">
+      <div ref={aboutRef} className="about-layer absolute inset-0 z-10 w-full h-full will-change-transform">
         <AboutMe isActive={isAboutActive} />
       </div>
     </main>
